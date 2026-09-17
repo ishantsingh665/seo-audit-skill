@@ -1,0 +1,238 @@
+version: "1.0"
+description: "Evidence-based SEO audit rules. Verify current search-engine guidance before treating a rule as a requirement."
+
+severity:
+  critical:
+    description: "Can substantially prevent important content from being crawled or indexed."
+  high:
+    description: "Material discoverability or search-performance problem."
+  medium:
+    description: "Meaningful optimization opportunity."
+  low:
+    description: "Minor optimization opportunity."
+
+rules:
+
+  - id: CRAWL-001
+    category: crawlability
+    name: robots.txt availability
+    severity: medium
+    check: robots_txt
+    description: "Check whether robots.txt exists and is accessible."
+    hard_requirement: false
+
+  - id: CRAWL-002
+    category: crawlability
+    name: Important URL blocked by robots.txt
+    severity: critical
+    check: blocked_important_url
+    description: "Important pages should not be unintentionally blocked."
+    hard_requirement: false
+
+  - id: SITEMAP-001
+    category: sitemap
+    name: Sitemap availability
+    severity: medium
+    check: sitemap_exists
+    description: "Check for discoverable XML sitemap(s)."
+    hard_requirement: false
+
+  - id: SITEMAP-002
+    category: sitemap
+    name: Non-indexable sitemap URL
+    severity: high
+    check: sitemap_non_indexable
+    description: "Identify sitemap URLs that are redirected, errored, or otherwise non-indexable."
+    hard_requirement: false
+
+  - id: HTTP-001
+    category: technical
+    name: Important page returns error
+    severity: critical
+    check: important_http_error
+    description: "Important URLs should return an appropriate successful response."
+    hard_requirement: false
+
+  - id: HTTP-002
+    category: technical
+    name: Redirect chain
+    severity: high
+    check: redirect_chain
+    description: "Identify unnecessary redirect chains."
+    hard_requirement: false
+
+  - id: INDEX-001
+    category: indexability
+    name: Accidental noindex
+    severity: critical
+    check: unintended_noindex
+    description: "Identify important pages blocked from indexing by robots directives."
+    hard_requirement: false
+
+  - id: CANON-001
+    category: canonical
+    name: Canonical points to error
+    severity: high
+    check: canonical_error
+    description: "Canonical destination should resolve appropriately."
+    hard_requirement: false
+
+  - id: CANON-002
+    category: canonical
+    name: Canonical conflict
+    severity: high
+    check: canonical_conflict
+    description: "Identify inconsistent canonical signals."
+    hard_requirement: false
+
+  - id: ONPAGE-001
+    category: onpage
+    name: Missing title
+    severity: high
+    check: missing_title
+    description: "Important HTML documents should have descriptive titles."
+    hard_requirement: false
+
+  - id: ONPAGE-002
+    category: onpage
+    name: Duplicate title
+    severity: medium
+    check: duplicate_title
+    description: "Identify pages sharing titles without an obvious legitimate reason."
+    hard_requirement: false
+
+  - id: ONPAGE-003
+    category: onpage
+    name: Missing meta description
+    severity: low
+    check: missing_description
+    description: "Identify pages without a meta description. Do not treat this as a direct ranking failure."
+    hard_requirement: false
+
+  - id: ONPAGE-004
+    category: onpage
+    name: Duplicate meta description
+    severity: low
+    check: duplicate_description
+    description: "Identify repetitive descriptions."
+    hard_requirement: false
+
+  - id: ONPAGE-005
+    category: onpage
+    name: Missing H1
+    severity: medium
+    check: missing_h1
+    description: "Review pages without a clear primary heading."
+    hard_requirement: false
+
+  - id: ONPAGE-006
+    category: onpage
+    name: Multiple H1
+    severity: low
+    check: multiple_h1
+    description: "Review semantic structure; multiple H1 elements are not automatically an SEO error."
+    hard_requirement: false
+
+  - id: LINKS-001
+    category: internal_linking
+    name: Broken internal link
+    severity: high
+    check: broken_internal_link
+    description: "Identify internal links that lead to errors."
+    hard_requirement: false
+
+  - id: LINKS-002
+    category: internal_linking
+    name: Orphan page
+    severity: high
+    check: orphan_page
+    description: "Identify important pages discovered without internal links."
+    hard_requirement: false
+
+  - id: LINKS-003
+    category: internal_linking
+    name: Internal link to redirect
+    severity: medium
+    check: internal_redirect_link
+    description: "Prefer linking directly to final URLs."
+    hard_requirement: false
+
+  - id: IMAGE-001
+    category: images
+    name: Missing useful alt text
+    severity: low
+    check: image_alt
+    description: "Review meaningful images without useful alternative text."
+    hard_requirement: false
+
+  - id: SCHEMA-001
+    category: structured_data
+    name: Invalid structured data syntax
+    severity: high
+    check: schema_syntax
+    description: "Validate structured-data syntax."
+    hard_requirement: false
+
+  - id: SCHEMA-002
+    category: structured_data
+    name: Page/schema mismatch
+    severity: medium
+    check: schema_page_consistency
+    description: "Structured data should accurately represent visible page content."
+    hard_requirement: false
+
+  - id: JS-001
+    category: javascript
+    name: Important content missing from raw HTML
+    severity: medium
+    check: raw_vs_rendered
+    description: "Compare raw HTML with rendered DOM on JavaScript-heavy sites."
+    hard_requirement: false
+
+  - id: MOBILE-001
+    category: mobile
+    name: Missing viewport
+    severity: medium
+    check: viewport
+    description: "Review mobile rendering configuration."
+    hard_requirement: false
+
+  - id: PERF-001
+    category: performance
+    name: Core Web Vitals
+    severity: medium
+    check: core_web_vitals
+    description: "Evaluate available field or lab performance data. Never fabricate field data."
+    hard_requirement: false
+
+  - id: CONTENT-001
+    category: content
+    name: Thin/low-value content candidate
+    severity: medium
+    check: content_quality
+    description: "Heuristic review based on usefulness, intent, originality, and information value."
+    hard_requirement: false
+
+  - id: CONTENT-002
+    category: content
+    name: Near-duplicate content
+    severity: medium
+    check: content_similarity
+    description: "Identify highly similar pages and determine whether differences are meaningful."
+    hard_requirement: false
+
+  - id: AI-001
+    category: ai_search
+    name: AI-search content readiness
+    severity: low
+    check: ai_readiness
+    description: "Review crawlability, clarity, original information, answerability, structure, and evidence."
+    hard_requirement: false
+
+  - id: AI-002
+    category: ai_search
+    name: llms.txt informational check
+    severity: low
+    check: llms_txt
+    description: "Report presence/absence only unless current authoritative documentation establishes a requirement."
+    hard_requirement: false
